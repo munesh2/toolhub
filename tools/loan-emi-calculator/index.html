@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Loan EMI Calculator - Universal Currency Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="../../index.html" class="flex items-center space-x-2 font-bold text-xl text-indigo-600">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <span>ToolHub</span>
+            </a>
+            <a href="../../index.html" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 flex items-center gap-1">
+                &larr; Back to All Tools
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Tool Workspace -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        
+        <!-- Tool Title -->
+        <div class="mb-8 text-center sm:text-left">
+            <span class="text-xs font-bold px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full">Personal Finance</span>
+            <h1 class="text-3xl font-extrabold text-slate-900 mt-2">Global Loan EMI Calculator</h1>
+            <p class="text-slate-600 text-sm mt-1">Calculate loan installments, total interest, and amortization breakdown for any loan or currency worldwide.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Panel: Controls & Inputs -->
+            <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                
+                <!-- Currency Symbol Selector -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Select Currency Symbol</label>
+                    <select id="currencySymbol" onchange="calculateEMI()" class="w-full border border-slate-300 rounded-xl p-3 bg-slate-50 font-semibold focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <option value="$">$ USD / Dollar</option>
+                        <option value="₹">₹ INR / Rupee</option>
+                        <option value="€">€ EUR / Euro</option>
+                        <option value="£">£ GBP / Pound</option>
+                        <option value="¥">¥ JPY / Yen</option>
+                        <option value="A$">A$ AUD / Australian Dollar</option>
+                        <option value="C$">C$ CAD / Canadian Dollar</option>
+                        <option value="Fr">Fr CHF / Swiss Franc</option>
+                        <option value="R$">R$ BRL / Brazilian Real</option>
+                        <option value="Custom">Custom Symbol</option>
+                    </select>
+                </div>
+
+                <!-- Custom Symbol Input (Hidden by default) -->
+                <div id="customSymbolBox" class="hidden">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Custom Currency Symbol</label>
+                    <input type="text" id="customSymbolInput" value="%" oninput="calculateEMI()" class="w-full border border-slate-300 rounded-xl p-3 bg-slate-50 font-semibold outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <!-- Loan Amount -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">Loan Amount</label>
+                        <span id="loanAmountDisplay" class="text-sm font-bold text-indigo-600">$ 100,000</span>
+                    </div>
+                    <input type="number" id="loanAmount" value="100000" min="500" step="1000" oninput="syncAmount(this.value)" class="w-full border border-slate-300 rounded-xl p-3 bg-slate-50 font-semibold outline-none focus:ring-2 focus:ring-indigo-500 mb-2">
+                    <input type="range" id="loanAmountRange" value="100000" min="1000" max="1000000" step="1000" oninput="syncAmountRange(this.value)" class="w-full accent-indigo-600 cursor-pointer">
+                </div>
+
+                <!-- Annual Interest Rate -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">Interest Rate (% p.a.)</label>
+                        <span id="interestRateDisplay" class="text-sm font-bold text-indigo-600">8.5 %</span>
+                    </div>
+                    <input type="number" id="interestRate" value="8.5" min="0.1" max="50" step="0.1" oninput="syncRate(this.value)" class="w-full border border-slate-300 rounded-xl p-3 bg-slate-50 font-semibold outline-none focus:ring-2 focus:ring-indigo-500 mb-2">
+                    <input type="range" id="interestRateRange" value="8.5" min="1" max="25" step="0.1" oninput="syncRateRange(this.value)" class="w-full accent-indigo-600 cursor-pointer">
+                </div>
+
+                <!-- Tenure / Duration -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">Loan Tenure</label>
+                        <div class="flex gap-2">
+                            <button id="tenureYearsBtn" onclick="setTenureMode('years')" class="px-2 py-0.5 text-xs font-bold rounded bg-indigo-600 text-white">Years</button>
+                            <button id="tenureMonthsBtn" onclick="setTenureMode('months')" class="px-2 py-0.5 text-xs font-bold rounded bg-slate-200 text-slate-700">Months</button>
+                        </div>
+                    </div>
+                    <input type="number" id="loanTenure" value="15" min="1" max="360" oninput="calculateEMI()" class="w-full border border-slate-300 rounded-xl p-3 bg-slate-50 font-semibold outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+            </div>
+
+            <!-- Right Panel: Results & Visuals -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Output Summary Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-indigo-600 text-white p-5 rounded-2xl shadow-sm">
+                        <span class="text-xs font-semibold text-indigo-200 uppercase tracking-wider">Monthly EMI</span>
+                        <div id="emiOutput" class="text-2xl font-black mt-1">$ 984.74</div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Interest</span>
+                        <div id="interestOutput" class="text-2xl font-extrabold text-slate-900 mt-1">$ 77,253</div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Payment</span>
+                        <div id="totalPaymentOutput" class="text-2xl font-extrabold text-slate-900 mt-1">$ 177,253</div>
+                    </div>
+                </div>
+
+                <!-- Donut Breakdown Chart -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center">
+                    <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-4 w-full text-left">Payment Breakdown</h3>
+                    <div class="w-64 h-64">
+                        <canvas id="breakdownChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Amortization Schedule Table -->
+        <section class="mt-10 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 mb-4">Annual Amortization Schedule</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-100 text-slate-700 text-xs uppercase tracking-wider border-b border-slate-200">
+                        <tr>
+                            <th class="p-3">Year</th>
+                            <th class="p-3">Principal Paid</th>
+                            <th class="p-3">Interest Paid</th>
+                            <th class="p-3">Total Payment</th>
+                            <th class="p-3">Remaining Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody" class="divide-y divide-slate-100 font-medium">
+                        <!-- Dynamically Generated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>&copy; 2026 ToolHub. 100% Client-Side Private Calculation.</p>
+    </footer>
+
+    <!-- Calculation Engine & Chart Script -->
+    <script>
+        let tenureMode = 'years';
+        let chartInstance = null;
+
+        function getSymbol() {
+            let select = document.getElementById('currencySymbol').value;
+            if (select === 'Custom') {
+                document.getElementById('customSymbolBox').classList.remove('hidden');
+                return document.getElementById('customSymbolInput').value || '';
+            } else {
+                document.getElementById('customSymbolBox').classList.add('hidden');
+                return select;
+            }
+        }
+
+        function formatCurrency(val) {
+            let sym = getSymbol();
+            return sym + ' ' + Number(val).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function setTenureMode(mode) {
+            tenureMode = mode;
+            let yrsBtn = document.getElementById('tenureYearsBtn');
+            let mthsBtn = document.getElementById('tenureMonthsBtn');
+            
+            if (mode === 'years') {
+                yrsBtn.className = "px-2 py-0.5 text-xs font-bold rounded bg-indigo-600 text-white";
+                mthsBtn.className = "px-2 py-0.5 text-xs font-bold rounded bg-slate-200 text-slate-700";
+            } else {
+                mthsBtn.className = "px-2 py-0.5 text-xs font-bold rounded bg-indigo-600 text-white";
+                yrsBtn.className = "px-2 py-0.5 text-xs font-bold rounded bg-slate-200 text-slate-700";
+            }
+            calculateEMI();
+        }
+
+        function syncAmount(val) {
+            document.getElementById('loanAmountRange').value = val;
+            calculateEMI();
+        }
+
+        function syncAmountRange(val) {
+            document.getElementById('loanAmount').value = val;
+            calculateEMI();
+        }
+
+        function syncRate(val) {
+            document.getElementById('interestRateRange').value = val;
+            calculateEMI();
+        }
+
+        function syncRateRange(val) {
+            document.getElementById('interestRate').value = val;
+            calculateEMI();
+        }
+
+        function calculateEMI() {
+            let P = parseFloat(document.getElementById('loanAmount').value) || 0;
+            let R = (parseFloat(document.getElementById('interestRate').value) || 0) / 12 / 100;
+            let tenureVal = parseFloat(document.getElementById('loanTenure').value) || 0;
+            let N = tenureMode === 'years' ? tenureVal * 12 : tenureVal;
+
+            document.getElementById('loanAmountDisplay').innerText = formatCurrency(P);
+            document.getElementById('interestRateDisplay').innerText = (R * 12 * 100).toFixed(1) + ' %';
+
+            if (P <= 0 || R <= 0 || N <= 0) return;
+
+            // Standard Amortization EMI Formula
+            let emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+            let totalPayment = emi * N;
+            let totalInterest = totalPayment - P;
+
+            document.getElementById('emiOutput').innerText = formatCurrency(emi);
+            document.getElementById('interestOutput').innerText = formatCurrency(totalInterest);
+            document.getElementById('totalPaymentOutput').innerText = formatCurrency(totalPayment);
+
+            updateChart(P, totalInterest);
+            generateSchedule(P, R, N, emi);
+        }
+
+        function updateChart(principal, interest) {
+            let ctx = document.getElementById('breakdownChart').getContext('2d');
+            
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal Amount', 'Total Interest'],
+                    datasets: [{
+                        data: [principal, interest],
+                        backgroundColor: ['#4f46e5', '#cbd5e1'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function generateSchedule(P, R, N, emi) {
+            let tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = '';
+
+            let balance = P;
+            let totalYears = Math.ceil(N / 12);
+
+            for (let y = 1; y <= totalYears; y++) {
+                let yearlyInterest = 0;
+                let yearlyPrincipal = 0;
+
+                for (let m = 1; m <= 12; m++) {
+                    if (balance <= 0) break;
+                    let interestForMonth = balance * R;
+                    let principalForMonth = emi - interestForMonth;
+
+                    if (balance < principalForMonth) principalForMonth = balance;
+
+                    yearlyInterest += interestForMonth;
+                    yearlyPrincipal += principalForMonth;
+                    balance -= principalForMonth;
+                }
+
+                let row = `<tr>
+                    <td class="p-3">Year ${y}</td>
+                    <td class="p-3 text-emerald-600">${formatCurrency(yearlyPrincipal)}</td>
+                    <td class="p-3 text-slate-500">${formatCurrency(yearlyInterest)}</td>
+                    <td class="p-3 font-semibold">${formatCurrency(yearlyPrincipal + yearlyInterest)}</td>
+                    <td class="p-3">${formatCurrency(Math.max(0, balance))}</td>
+                </tr>`;
+                tbody.innerHTML += row;
+            }
+        }
+
+        // Initialize on load
+        calculateEMI();
+    </script>
+</body>
+</html>

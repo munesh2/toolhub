@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolHub - 100+ Free Browser Web Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hide { display: none !important; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-2 font-bold text-xl text-indigo-600">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <span>ToolHub</span>
+            </a>
+            <div class="flex items-center space-x-3">
+                <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">100% Privacy-First (Client-Side)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero & Search Section -->
+    <section class="bg-white border-b border-slate-200 py-10 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">100+ Free Online Web Tools</h1>
+            <p class="mt-3 text-base sm:text-lg text-slate-600">Fast, serverless utility tools that execute 100% locally inside your browser.</p>
+
+            <!-- Search Bar -->
+            <div class="mt-6 relative max-w-2xl mx-auto">
+                <input type="text" id="searchInput" oninput="filterTools()" placeholder="Search tools (e.g., Loan EMI, JSON, Password, BMI)..." 
+                    class="w-full pl-12 pr-4 py-3.5 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-base outline-none transition">
+                <svg class="w-6 h-6 text-slate-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="mt-6 flex flex-wrap justify-center gap-2" id="categoryContainer">
+                <button onclick="setCategory('all')" class="cat-btn bg-indigo-600 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm transition">All (101)</button>
+                <button onclick="setCategory('finance')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Finance</button>
+                <button onclick="setCategory('ecommerce')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">E-Commerce</button>
+                <button onclick="setCategory('dev')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Web Dev</button>
+                <button onclick="setCategory('marketing')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Marketing</button>
+                <button onclick="setCategory('realestate')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Real Estate</button>
+                <button onclick="setCategory('health')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Health</button>
+                <button onclick="setCategory('hr')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">HR & Work</button>
+                <button onclick="setCategory('education')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Education</button>
+                <button onclick="setCategory('travel')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Travel</button>
+                <button onclick="setCategory('utility')" class="cat-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Utilities</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Tool Directory Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+        <div id="toolGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+            <!-- 1. FINANCE TOOLS -->
+            <a href="./tools/loan-emi-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="finance" data-title="loan emi calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Finance</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Loan EMI Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Monthly loan installments, total interest payable, and payout schedules.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+            <a href="./tools/sip-returns-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="finance" data-title="sip returns calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Finance</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">SIP Returns Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Project compound growth on periodic mutual fund investments.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+            <a href="./tools/compound-interest-visualizer/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="finance" data-title="compound interest visualizer">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Finance</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Compound Interest Visualizer</h3>
+                    <p class="text-xs text-slate-600 mt-1">Display long-term wealth accumulation across customizable horizons.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+            <a href="./tools/fd-rd-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="finance" data-title="fd rd interest calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Finance</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">FD & RD Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Maturity amounts and returns for fixed and recurring deposits.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 2. E-COMMERCE TOOLS -->
+            <a href="./tools/profit-margin-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="ecommerce" data-title="profit margin markup calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">E-Commerce</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Profit Margin & Markup Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Compute cost price, gross profit margins, and markup percentages.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+            <a href="./tools/stripe-paypal-fee-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="ecommerce" data-title="stripe paypal fee estimator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">E-Commerce</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Stripe & PayPal Fee Estimator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Compute net incoming revenue after merchant processor fees.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 3. WEB DEVELOPMENT TOOLS -->
+            <a href="./tools/json-formatter/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="dev" data-title="json formatter validator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded">Web Dev</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">JSON Formatter & Validator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Beautify, inspect, validate, and minify raw JSON string code.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+            <a href="./tools/base64-encoder-decoder/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="dev" data-title="base64 encoder decoder">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded">Web Dev</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Base64 Encoder / Decoder</h3>
+                    <p class="text-xs text-slate-600 mt-1">Convert text or binary formats to Base64 strings and back.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+            <a href="./tools/css-gradient-generator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="dev" data-title="css gradient generator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded">Web Dev</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">CSS Gradient Generator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Build linear and radial gradients with instant exportable CSS code.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 4. MARKETING TOOLS -->
+            <a href="./tools/word-character-counter/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="marketing" data-title="word character counter">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-pink-100 text-pink-800 rounded">Marketing</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Word & Character Counter</h3>
+                    <p class="text-xs text-slate-600 mt-1">Count words, characters, sentences, paragraphs, and reading time.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+            <a href="./tools/utm-link-builder/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="marketing" data-title="utm link builder">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-pink-100 text-pink-800 rounded">Marketing</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">UTM Link Builder</h3>
+                    <p class="text-xs text-slate-600 mt-1">Append custom campaign, source, and medium tags cleanly to URLs.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 5. REAL ESTATE TOOLS -->
+            <a href="./tools/home-affordability-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="realestate" data-title="home affordability calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-orange-100 text-orange-800 rounded">Real Estate</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Home Affordability Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Estimate max home purchase budget based on income and DTI ratios.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 6. HEALTH TOOLS -->
+            <a href="./tools/bmi-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="health" data-title="bmi health category calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Health</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">BMI Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Compute Body Mass Index with visual health classification ranges.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 7. HR & WORK TOOLS -->
+            <a href="./tools/freelance-rate-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="hr" data-title="freelance hourly rate calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-cyan-100 text-cyan-800 rounded">HR & Work</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Freelance Hourly Rate Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Compute minimum hourly billable rates required based on target income.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 8. EDUCATION TOOLS -->
+            <a href="./tools/gpa-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="education" data-title="gpa cumulative grade calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-yellow-100 text-yellow-800 rounded">Education</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">GPA Grade Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Calculate term and overall Grade Point Averages across credit weights.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 9. TRAVEL TOOLS -->
+            <a href="./tools/trip-fuel-cost-calculator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="travel" data-title="trip fuel cost mileage calculator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-teal-100 text-teal-800 rounded">Travel</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Trip Fuel Cost Calculator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Estimate fuel expenditure based on distance, fuel prices, and MPG.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+            <!-- 10. UTILITIES -->
+            <a href="./tools/password-generator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="utility" data-title="secure password generator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">Utilities</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">Secure Password Generator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Generate cryptographically secure randomized passwords locally.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+            <a href="./tools/qr-code-generator/" class="tool-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-category="utility" data-title="qr code generator">
+                <div>
+                    <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">Utilities</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-2">QR Code Generator</h3>
+                    <p class="text-xs text-slate-600 mt-1">Convert URLs or text into downloadable SVG or PNG QR codes.</p>
+                </div>
+                <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Open Tool &rarr;</span>
+            </a>
+
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="text-center py-12 hide">
+            <p class="text-slate-500 font-medium">No tools found matching your search. Try searching for "EMI", "JSON", or "Password".</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>&copy; 2026 ToolHub. Built for speed and 100% browser privacy.</p>
+    </footer>
+
+    <!-- Search & Filtering Engine -->
+    <script>
+        let currentCategory = 'all';
+
+        function filterTools() {
+            let searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            let cards = document.getElementsByClassName('tool-card');
+            let visibleCount = 0;
+
+            for (let card of cards) {
+                let title = card.getAttribute('data-title').toLowerCase();
+                let category = card.getAttribute('data-category');
+
+                let matchesCategory = (currentCategory === 'all' || category === currentCategory);
+                let matchesSearch = title.includes(searchQuery);
+
+                if (matchesCategory && matchesSearch) {
+                    card.classList.remove('hide');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hide');
+                }
+            }
+
+            let noResults = document.getElementById('noResults');
+            if (visibleCount === 0) {
+                noResults.classList.remove('hide');
+            } else {
+                noResults.classList.add('hide');
+            }
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            
+            // Update Active Tab Styling
+            let buttons = document.getElementsByClassName('cat-btn');
+            for (let btn of buttons) {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-slate-200', 'text-slate-700');
+            }
+
+            event.target.classList.remove('bg-slate-200', 'text-slate-700');
+            event.target.classList.add('bg-indigo-600', 'text-white');
+
+            filterTools();
+        }
+    </script>
+</body>
+</html>
