@@ -1,0 +1,30 @@
+/* Google Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Global Base Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc; /* Tailwind slate-50 */
+    color: #1e293b;            /* Tailwind slate-800 */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Reusable UI Utility Classes */
+.card-wrapper {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.primary-gradient-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.625rem;
+    background-color: #dbeafe;
+    color: #1e40af;
+    border-radius: 9999px;
+}
